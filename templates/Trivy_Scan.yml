@@ -17,6 +17,7 @@ jobs:
         --severity HIGH,CRITICAL \
         --format json \
         --output /report/trivy-report.json \
+        --timeout 10m \
         ${{ parameters.imageName }}:${{ parameters.tag }}
     displayName: Run Trivy Scan
     
