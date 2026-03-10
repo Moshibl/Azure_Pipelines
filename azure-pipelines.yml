@@ -14,7 +14,7 @@ stages:
   - template: templates/Jar_Build.yml
 
 - stage: Build_Image
-  dependsOn: Build Jar
+  dependsOn: Build_Jar
   jobs:
   - template: templates/Image_Build.yml
     parameters:
@@ -22,7 +22,7 @@ stages:
       tag: $(tag)
 
 - stage: Publish
-  dependsOn: Build Image
+  dependsOn: Build_Image
   jobs:
   - job: PushImage
     steps:
