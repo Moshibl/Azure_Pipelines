@@ -8,19 +8,20 @@ jobs:
 
   steps:
   - script: |
+      mkdir -p $(Build.ArtifactStagingDirectory)/trivy
       docker run --rm \
-      -v /var/run/docker.sock:/var/run/docker.sock \
-      aquasec/trivy image \
-      --exit-code 1 \
-      --severity HIGH,CRITICAL \
-      --format json \
-      --output /report/trivy-report.json \
-      ${{ parameters.imageName }}:${{ parameters.tag }}
-
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $(Build.ArtifactStagingDirectory)/trivy:/report \
+        aquasec/trivy image \
+        --exit-code 1 \
+        --severity HIGH,CRITICAL \
+        --format json \
+        --output /report/trivy-report.json \
+        ${{ parameters.imageName }}:${{ parameters.tag }}
     displayName: Run Trivy Scan
     
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/trivy-report.json'
-    artifact: 'TrivyScanReport'
-    publishLocation: 'pipeline'
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/trivy/trivy-report.json'
+      artifact: 'TrivyScanReport'
+      publishLocation: 'pipeline'
