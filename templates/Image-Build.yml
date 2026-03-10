@@ -1,0 +1,11 @@
+parameters:
+  imageName: ''
+  tag: ''
+
+jobs:
+- job: DockerBuild
+
+  steps:
+  - script: |
+      docker build -t ${{ parameters.imageName }}:${{ parameters.tag }} demo
+    displayName: Build Docker Image

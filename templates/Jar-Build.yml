@@ -1,0 +1,12 @@
+jobs:
+- job: BuildJava
+  displayName: Build Java Application
+
+  steps:
+  - task: Maven@4
+    inputs:
+      mavenPomFile: 'demo/pom.xml'
+      goals: 'clean package'
+      options: '-DskipTests'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
