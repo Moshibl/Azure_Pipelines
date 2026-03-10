@@ -1,0 +1,18 @@
+parameters:
+  imageName: ''
+  tag: ''
+
+jobs:
+- job: TrivyScan
+  displayName: Security Scan
+
+  steps:
+  - script: |
+      docker run --rm \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      aquasec/trivy image \
+      --exit-code 1 \
+      --severity HIGH,CRITICAL \
+      ${{ parameters.imageName }}:${{ parameters.tag }}
+
+    displayName: Run Trivy Scan

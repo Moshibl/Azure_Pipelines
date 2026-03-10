@@ -21,10 +21,23 @@ stages:
       imageName: $(imageName)
       tag: $(tag)
 
-- stage: Publish
+- stage: Security_Scan
   dependsOn: Build_Image
   jobs:
+  - template: templates/Trivy_Scan.yml
+    parameters:
+      imageName: $(imageName)
+      tag: $(tag)
+
+- stage: Publish
+  dependsOn: Security_Scan
+  jobs:
   - job: PushImage
+    displayName: Push Docker Image
+
     steps:
     - script: |
-        docker push $(imageName):$(tag)
+        echo $(DOCKERHUB_PASSWORD) | docker login -u $(DOCKERHUB_USERNAME) --password-stdin
+        docker push $(DOCKERHUB_USERNAME)/$(imageName):$(tag)
+
+      displayName: Login and Push Image
