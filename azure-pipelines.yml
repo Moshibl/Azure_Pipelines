@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  imageName: SpringBootJava
+  imageName: springbootapp
   tag: $(Build.BuildId)
 
 pool:
