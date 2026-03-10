@@ -9,14 +9,14 @@ pool:
   name: Self_Managed
 
 stages:
-- stage: Build Jar
+- stage: Build_Jar
   jobs:
-  - template: templates/Jar_Build
+  - template: templates/Jar_Build.yml
 
-- stage: Build Image
+- stage: Build_Image
   dependsOn: Build Jar
   jobs:
-  - template: templates/Image_Build
+  - template: templates/Image_Build.yml
     parameters:
       imageName: $(imageName)
       tag: $(tag)
