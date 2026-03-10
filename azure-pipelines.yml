@@ -1,0 +1,30 @@
+trigger:
+- main
+
+variables:
+  imageName: SpringBootJava
+  tag: $(Build.BuildId)
+
+pool:
+  name: Self_Managed
+
+stages:
+- stage: Build Jar
+  jobs:
+  - template: templates/Jar-Build.yml
+
+- stage: Build Image
+  dependsOn: Build Jar
+  jobs:
+  - template: templates/Image-Build.yml
+    parameters:
+      imageName: $(imageName)
+      tag: $(tag)
+
+- stage: Publish
+  dependsOn: Build Image
+  jobs:
+  - job: PushImage
+    steps:
+    - script: |
+        docker push $(imageName):$(tag)
