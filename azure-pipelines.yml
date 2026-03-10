@@ -11,12 +11,12 @@ pool:
 stages:
 - stage: Build Jar
   jobs:
-  - template: templates/Jar_Build.yml
+  - template: templates/Jar_Build
 
 - stage: Build Image
   dependsOn: Build Jar
   jobs:
-  - template: templates/Image_Build.yml
+  - template: templates/Image_Build
     parameters:
       imageName: $(imageName)
       tag: $(tag)
