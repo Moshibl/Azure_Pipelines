@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  imageName: springbootapp
+  imageName: moshibl/springbootapp
   tag: $(Build.BuildId)
 
 pool:
@@ -40,4 +40,4 @@ stages:
         containerRegistry: 'Dockerhub'  # Name of the service connection
         repository: 'moshibl/springbootapp'    # DockerHub repo
         command: 'push'
-        # tags: '$(tag)'
+        tags: '$(tag)'
