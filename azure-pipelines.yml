@@ -21,16 +21,16 @@ stages:
       imageName: $(imageName)
       tag: $(tag)
 
-# - stage: Security_Scan
-#   dependsOn: Build_Image
-#   jobs:
-#   - template: templates/Trivy_Scan.yml
-#     parameters:
-#       imageName: $(imageName)
-#       tag: $(tag)
+- stage: Security_Scan
+  dependsOn: Build_Image
+  jobs:
+  - template: templates/Trivy_Scan.yml
+    parameters:
+      imageName: $(imageName)
+      tag: $(tag)
 
 - stage: Publish
-  dependsOn: Build_Image
+  dependsOn: Security_Scan
   jobs:
   - job: PushImage
     steps:
