@@ -33,11 +33,11 @@ stages:
   dependsOn: Build_Image
   jobs:
   - job: PushImage
-    displayName: Push Docker Image
-
     steps:
-    - script: |
-        echo $(DOCKERHUB_PASSWORD) | docker login -u $(DOCKERHUB_USERNAME) --password-stdin
-        docker push $(DOCKERHUB_USERNAME)/$(imageName):$(tag)
-
-      displayName: Login and Push Image
+    - task: Docker@2
+      displayName: 'Login and Push Docker Image'
+      inputs:
+        containerRegistry: 'Dockerhub'  # Name of the service connection
+        repository: 'moshibl/springbootapp'    # DockerHub repo
+        command: 'push'
+        tags: '$(tag)'
