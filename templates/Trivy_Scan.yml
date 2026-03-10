@@ -9,18 +9,28 @@ jobs:
   steps:
   - script: |
       mkdir -p $(Build.ArtifactStagingDirectory)/trivy
+
       docker run --rm \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -v $(Build.ArtifactStagingDirectory)/trivy:/report \
         aquasec/trivy image \
-        --exit-code 1 \
         --severity HIGH,CRITICAL \
         --format json \
         --output /report/trivy-report.json \
         --timeout 10m \
         ${{ parameters.imageName }}:${{ parameters.tag }}
-    displayName: Run Trivy Scan
-    
+
+      VULN_COUNT=$(jq '[.Results[].Vulnerabilities[]? | select(.Severity=="HIGH" or .Severity=="CRITICAL")] | length' $(Build.ArtifactStagingDirectory)/trivy/trivy-report.json)
+      echo "Number of HIGH/CRITICAL vulnerabilities: $VULN_COUNT"
+
+      if [ "$VULN_COUNT" -gt 0 ]; then
+        echo "❌ High/critical vulnerabilities found. Failing pipeline."
+        exit 1
+      else
+        echo "✅ No HIGH/CRITICAL vulnerabilities found."
+      fi
+    displayName: Run Trivy Scan and Enforce Quality Gate
+
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)/trivy/trivy-report.json'
