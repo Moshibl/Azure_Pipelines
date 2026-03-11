@@ -31,8 +31,8 @@ jobs:
       fi
     displayName: Run Trivy Scan and Enforce Quality Gate
 
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/trivy/trivy-report.json'
-      artifact: 'TrivyScanReport'
-      publishLocation: 'pipeline'
+  # - task: PublishPipelineArtifact@1
+  #   inputs:
+  #     targetPath: '$(Build.ArtifactStagingDirectory)/trivy/trivy-report.json'
+  #     artifact: 'TrivyScanReport'
+  #     publishLocation: 'pipeline'
