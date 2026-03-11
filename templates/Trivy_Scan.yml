@@ -8,11 +8,11 @@ jobs:
 
   steps:
   - script: |
-      mkdir -p $(Build.ArtifactStagingDirectory)/trivy
+      mkdir -p /azp/_work/1/a/trivy
 
       docker run --rm \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(Build.ArtifactStagingDirectory)/trivy:/report \
+        -v /azp/_work/1/a/trivy:/report \
         aquasec/trivy image \
         --severity HIGH,CRITICAL \
         --format json \
