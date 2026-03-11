@@ -380,7 +380,7 @@ Testing the Failure on Trivy quality gate Violate
 ![TrivyFail](Screenshots/TrivyFail.png)
 
 
-Testing on Success (Remove the Scan)
+Testing on Success
 ![Success](Screenshots/Success.png)
 ---
 
