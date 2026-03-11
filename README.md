@@ -392,12 +392,47 @@ Once the Image is successfully pushed, we verify by checking DockerHub
 
 ---
 
+### 7. The Trivy Analysis
+
+Reading the *trivy-report.json* We can group the packages by running this command in vim:
+
+```bash
+:g/"PkgName"/p
+          "PkgName": "gnutls",
+          "PkgName": "libpng",
+          "PkgName": "zlib",
+          "PkgName": "tools.jackson.core:jackson-core",
+          "PkgName": "tools.jackson.core:jackson-core"
+```
+
+```bash
+:g/"Severity"/p
+          "Severity": "HIGH",
+          "Severity": "HIGH",
+          "Severity": "CRITICAL",
+          "Severity": "HIGH",
+          "Severity": "HIGH"
+```
+
+The packages with their corresponding severities
+
+```bash
+- gnutls - HIGH
+- libpng - HIGH
+- jackson-core - HIGH
+- jackson-core - HIGH
+- zlib - CRITICAL
+```
+
+Which we can analyze the vulnerabilities beneath each of them and possible solutions
+
+
 ## 📌 Summary
 
 - **Create A Self-Hosted Docker Agent**
 - **Create a Modular-Reusable Pipeline**
 - **Use Trivy to manage Image Push**
-- **Verify**
+- **Verify Trivy report for vulnerabilities**
 
 ---
 
